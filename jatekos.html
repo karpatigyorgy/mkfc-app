@@ -192,7 +192,9 @@ if (hetiValasz) {
   }
 }
   hetiHtml +=
-    '<div style="margin-top:12px; padding-top:12px; border-top:1px solid #ddd;">' +
+    '<div class="hetiEsemenyElem" data-esemeny-id="' +
+  esemeny.id +
+  '" style="margin-top:12px; padding-top:12px; border-top:1px solid #ddd; cursor:pointer;">' +
       '<div><strong>' + (esemeny.tipus || "Esemény") + '</strong></div>' +
       '<div>📅 ' + (esemeny.datum || "") + '</div>' +
       '<div>⏰ ' + (esemeny.kezdes || "") + '</div>' +
@@ -206,7 +208,14 @@ if (hetiValasz) {
 }); 
     
 hetiKartya.innerHTML = hetiHtml; 
-    
+document
+  .querySelectorAll(".hetiEsemenyElem")
+  .forEach(function(elem) {
+    elem.addEventListener("click", function() {
+      const esemenyId = elem.getAttribute("data-esemeny-id");
+      alert(esemenyId);
+    });
+  });    
 function esemenyIdopont(esemeny) {
   const datumReszek = String(esemeny.datum || "")
     .replace(/\.$/, "")
