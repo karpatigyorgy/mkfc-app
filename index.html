@@ -7,41 +7,144 @@
   <title>MKFC</title>
 
   <meta name="theme-color" content="#174a73">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon-512.png">
   <link rel="apple-touch-icon" href="icon-512.png">
 
   <style>
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #ffffff;
+      font-family: Arial, sans-serif;
+      background: #f4f7fa;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    iframe {
+    .card {
+      width: 90%;
+      max-width: 420px;
+      background: #fff;
+      padding: 28px 22px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      text-align: center;
+    }
+
+    .logo {
+      width: 150px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0 0 22px;
+      color: #174a73;
+    }
+
+    input {
       width: 100%;
-      height: 100%;
+      box-sizing: border-box;
+      padding: 14px;
+      margin-bottom: 14px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
       border: 0;
-      display: block;
+      border-radius: 10px;
+      background: #174a73;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #uzenet {
+      margin-top: 16px;
+      color: #b00020;
+      min-height: 20px;
     }
   </style>
 </head>
 
 <body>
 
-  <iframe
-    src="https://script.google.com/macros/s/AKfycbyFmtgSTy0wAvMsjJzYBqNk32x7ET-_LDjWAQeDthfaEGxSYrmKtDc3B1wf_HKJIUxqKQ/exec"
-    allow="camera; microphone; geolocation"
-  ></iframe>
+  <div class="card">
+    <img src="MKFC_logo.png" class="logo" alt="MKFC">
+
+    <h1>Játékos belépés</h1>
+
+    <input id="nev" type="text" placeholder="Játékos neve">
+
+    <input id="jelszo" type="password" placeholder="Jelszó">
+
+    <button onclick="belepes()">Belépés</button>
+
+    <div id="uzenet"></div>
+  </div>
 
   <script>
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbyFmtgSTy0wAvMsjJzYBqNk32x7ET-_LDjWAQeDthfaEGxSYrmKtDc3B1wf_HKJIUxqKQ/exec";
+
+    async function belepes() {
+      const nev = document.getElementById("nev").value.trim();
+      const jelszo = document.getElementById("jelszo").value;
+      const uzenet = document.getElementById("uzenet");
+
+      uzenet.textContent = "";
+
+      if (!nev || !jelszo) {
+        uzenet.textContent = "Add meg a nevet és a jelszót.";
+        return;
+      }
+
+      try {
+        const valasz = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify({
+            muvelet: "jatekosBelepes",
+            nev: nev,
+            jelszo: jelszo
+          })
+        });
+
+        const adat = await valasz.json();
+
+        if (!adat.siker) {
+          uzenet.textContent =
+            adat.uzenet || "Sikertelen belépés.";
+          return;
+        }
+
+        localStorage.setItem(
+          "mkfc_jatekos_token",
+          adat.token || ""
+        );
+
+        localStorage.setItem(
+          "mkfc_jatekos_nev",
+          adat.nev || nev
+        );
+
+        uzenet.style.color = "green";
+        uzenet.textContent = "Sikeres belépés.";
+
+      } catch (hiba) {
+        uzenet.textContent =
+          "Kapcsolódási hiba: " + hiba.message;
+      }
+    }
+
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("./service-worker.js");
     }
