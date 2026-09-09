@@ -138,6 +138,9 @@
 
         uzenet.style.color = "green";
         uzenet.textContent = "Sikeres belépés.";
+        setTimeout(() => {
+         window.location.href = "jatekos.html";
+        }, 600);
 
       } catch (hiba) {
         uzenet.textContent =
