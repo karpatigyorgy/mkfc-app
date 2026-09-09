@@ -139,8 +139,19 @@ const csapatIdk = csapatok
     }
 
     kartya.innerHTML =
-      '<div class="nev">📅 Következő esemény</div>' +
-      '<div>Adatok betöltve.</div>';
+  '<div class="nev">📅 Következő esemény</div>' +
+  '<div><strong>' + (e.tipus || "Esemény") + '</strong></div>' +
+  '<div>📅 ' + (e.datum || "") + '</div>' +
+  '<div>⏰ ' + (e.kezdes || "") + '</div>' +
+  (e.ellenfel
+    ? '<div>⚽ <strong>Ellenfél:</strong> ' + e.ellenfel + '</div>'
+    : '') +
+  (e.helyszin
+    ? '<div>📍 <strong>Helyszín:</strong> ' + e.helyszin + '</div>'
+    : '') +
+  (e.gyulekezo
+    ? '<div>🕐 <strong>Gyülekező:</strong> ' + e.gyulekezo + '</div>'
+    : '');
 
   } catch (hiba) {
     kartya.innerHTML =
