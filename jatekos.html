@@ -241,7 +241,36 @@ async function reszvetelAllapotBetoltese(esemenyId) {
     }
 
     window.aktualisReszvetel = elozoValasz;
+   const kartya = document.getElementById("kovetkezoEsemeny");
+const reszvetelGomb = document.getElementById("reszvetelGomb");
 
+if (reszvetelGomb) {
+  reszvetelGomb.style.display = "none";
+}
+
+const allapot = document.createElement("div");
+allapot.style.marginTop = "16px";
+allapot.style.fontWeight = "600";
+
+const foSor = document.createElement("div");
+
+foSor.textContent =
+  elozoValasz.valasz === "Igen"
+    ? "✅ Korábbi visszajelzésed: Részt veszek"
+    : "❌ Korábbi visszajelzésed: Nem veszek részt";
+
+allapot.appendChild(foSor);
+
+if (
+  elozoValasz.valasz === "Nem" &&
+  elozoValasz.indoklas
+) {
+  const indokSor = document.createElement("div");
+  indokSor.textContent = "Indok: " + elozoValasz.indoklas;
+  allapot.appendChild(indokSor);
+}
+
+kartya.appendChild(allapot);
   } catch (hiba) {
     console.error("Részvételi állapot betöltési hiba:", hiba);
   }
