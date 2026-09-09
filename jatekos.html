@@ -176,15 +176,16 @@ const e = kovetkezok[0];
 await reszvetelAllapotBetoltese(e.id);    
     
 if (!e) {
-  const vanMarValasz =
-    window.aktualisReszvetel &&
-    window.aktualisReszvetel.esemenyId === e.id;
+ 
   kartya.innerHTML =
     '<div class="nev">📅 Következő esemény</div>' +
     '<div>Nincs közelgő esemény.</div>';
   return;
 }
-
+ const vanMarValasz =
+    window.aktualisReszvetel &&
+    window.aktualisReszvetel.esemenyId === e.id;
+    
     kartya.innerHTML =
   '<div class="nev">📅 Következő esemény</div>' +
   '<div><strong>' + (e.tipus || "Esemény") + '</strong></div>' +
