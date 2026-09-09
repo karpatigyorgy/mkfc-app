@@ -277,7 +277,18 @@ async function reszvetelValaszMentese(esemenyId, valasz, indoklas = "") {
       throw new Error(adat.uzenet || "A mentés nem sikerült.");
     }
 
-    alert(adat.uzenet || "Részvétel rögzítve.");
+   const kartya = document.getElementById("kovetkezoEsemeny");
+
+kartya.innerHTML +=
+  '<div style="margin-top:16px; font-weight:600;">' +
+    (valasz === "Igen"
+      ? "✅ Visszajelzésed rögzítve: Részt veszek"
+      : "❌ Visszajelzésed rögzítve: Nem veszek részt" +
+        (indoklas
+          ? "<br>Indok: " + indoklas
+          : "")
+    ) +
+  '</div>';
 
   } catch (hiba) {
     alert("Hiba: " + hiba.message);
