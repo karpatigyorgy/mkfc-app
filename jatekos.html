@@ -79,7 +79,12 @@
         Sikeres belépés.
       </div>
     </div>
-
+    
+   <div class="card" id="kovetkezoEsemeny">
+  <div class="nev">📅 Következő esemény</div>
+  <div>Betöltés...</div>
+</div>
+    
     <div class="card">
       <button onclick="kijelentkezes()">
         Kijelentkezés
@@ -88,15 +93,61 @@
   </div>
 
   <script>
+    const API_URL =
+  "https://script.google.com/macros/s/AKfycbyFmtgSTy0wAvMsjJzYBqNk32x7ET-_LDjWAQeDthfaEGxSYrmKtDc3B1wf_HKJIUxqKQ/exec";
     const nev = localStorage.getItem("mkfc_jatekos_nev");
     const token = localStorage.getItem("mkfc_jatekos_token");
+
+    const csapatok = JSON.parse(
+  localStorage.getItem("mkfc_jatekos_csapatok") || "[]"
+);
+
+const csapatIdk = csapatok
+  .map(function(csapat) {
+    return String(csapat.csapatId || "").trim();
+  })
+  .filter(Boolean);
 
     if (!nev || !token) {
       window.location.href = "index.html";
     } else {
       document.getElementById("jatekosNev").textContent = nev;
+      kovetkezoEsemenyBetoltese();
+    }
+    
+  async function kovetkezoEsemenyBetoltese() {
+  const kartya = document.getElementById("kovetkezoEsemeny");
+
+  try {
+    const valasz = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify({
+        muvelet: "programAdatok",
+        csapatId: csapatIdk.length > 0
+          ? csapatIdk
+          : ["MKFC-U19"]
+      })
+    });
+
+    const adat = await valasz.json();
+
+    if (!adat.siker) {
+      throw new Error(adat.uzenet || "Nem sikerült lekérni az eseményeket.");
     }
 
+    kartya.innerHTML =
+      '<div class="nev">📅 Következő esemény</div>' +
+      '<div>Adatok betöltve.</div>';
+
+  } catch (hiba) {
+    kartya.innerHTML =
+      '<div class="nev">📅 Következő esemény</div>' +
+      '<div>Hiba: ' + hiba.message + '</div>';
+  }
+}
     function kijelentkezes() {
       localStorage.removeItem("mkfc_jatekos_nev");
       localStorage.removeItem("mkfc_jatekos_token");
