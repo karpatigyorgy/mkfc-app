@@ -230,6 +230,8 @@ async function reszvetelAllapotBetoltese(esemenyId) {
 
     const adat = await valaszApi.json();
 
+    alert(JSON.stringify(adat));
+
     if (!adat.siker) {
       return;
     }
