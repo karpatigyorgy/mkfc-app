@@ -173,7 +173,7 @@ if (hetiEsemenyek.length === 0) {
 } 
 hetiEsemenyek.forEach(function(esemeny) {
 const hetiValasz = (window.reszvetelElozmenyek || []).find(function(elem) {
-  return elem.esemenyId === esemeny.id;
+  return String(elem.esemenyId || "").trim() === String(esemeny.id || "").trim();
 });  
 
 let hetiValaszSzoveg = "⚪ Nincs visszajelzés";
