@@ -192,8 +192,7 @@ if (!e) {
 (e.gyulekezo
   ? '<div>🕐 <strong>Gyülekező:</strong> ' + e.gyulekezo + '</div>'
   : '') +
-      
-'<button id="reszvetelGomb" style="margin-top:16px;" onclick="this.textContent=\'MŰKÖDIK\'">Részvétel jelzése</button>';
+      '<button type="button" id="reszvetelGomb" style="margin-top:16px;">Részvétel jelzése</button>';
    document
   .getElementById("reszvetelGomb")
   .addEventListener("click", function() {
