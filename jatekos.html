@@ -214,18 +214,49 @@ function reszvetelJelzes(esemenyId) {
       '<button type="button" id="nemVeszekResztGomb" style="margin-top:10px;">❌ Nem veszek részt</button>' +
     '</div>';
 
-  document
-    .getElementById("resztVeszekGomb")
-    .addEventListener("click", function() {
-      alert("Részt veszek – esemény: " + esemenyId);
+ document
+  .getElementById("resztVeszekGomb")
+  .addEventListener("click", function() {
+    reszvetelValaszMentese(esemenyId, "Igen");
+  });
+
+document
+  .getElementById("nemVeszekResztGomb")
+  .addEventListener("click", function() {
+    reszvetelValaszMentese(esemenyId, "Nem");
+  });
+}
+
+  async function reszvetelValaszMentese(esemenyId, valasz) {
+  try {
+    const valaszApi = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify({
+        muvelet: "reszvetelMentes",
+        esemenyId: esemenyId,
+        datum: "",
+        tipus: "",
+        jatekos: nev,
+        valasz: valasz,
+        indoklas: ""
+      })
     });
 
-  document
-    .getElementById("nemVeszekResztGomb")
-    .addEventListener("click", function() {
-      alert("Nem veszek részt – esemény: " + esemenyId);
-    });
-}
+    const adat = await valaszApi.json();
+
+    if (!adat.siker) {
+      throw new Error(adat.uzenet || "A mentés nem sikerült.");
+    }
+
+    alert(adat.uzenet || "Részvétel rögzítve.");
+
+  } catch (hiba) {
+    alert("Hiba: " + hiba.message);
+  }
+}  
     function kijelentkezes() {
       localStorage.removeItem("mkfc_jatekos_nev");
       localStorage.removeItem("mkfc_jatekos_token");
