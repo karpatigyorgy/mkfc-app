@@ -171,7 +171,9 @@ const kovetkezok = esemenyek
 
 const e = kovetkezok[0];
 
- window.aktualisEsemeny = e;   
+ window.aktualisEsemeny = e; 
+    
+ await reszvetelAllapotBetoltese(e.id);
 
 if (!e) {
   kartya.innerHTML =
@@ -207,6 +209,41 @@ if (!e) {
       '<div>Hiba: ' + hiba.message + '</div>';
   }
 }
+    
+async function reszvetelAllapotBetoltese(esemenyId) {
+  try {
+    const valaszApi = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify({
+        muvelet: "reszvetelElozmenyek",
+        nev: nev
+      })
+    });
+
+    const adat = await valaszApi.json();
+
+    if (!adat.siker) {
+      return;
+    }
+
+    const elozoValasz = (adat.elozoValaszok || []).find(function(elem) {
+      return elem.esemenyId === esemenyId;
+    });
+
+    if (!elozoValasz) {
+      return;
+    }
+
+    window.aktualisReszvetel = elozoValasz;
+
+  } catch (hiba) {
+    console.error("Részvételi állapot betöltési hiba:", hiba);
+  }
+}
+    
 function reszvetelJelzes(esemenyId) {
   const kartya = document.getElementById("kovetkezoEsemeny");
   const reszvetelGomb = document.getElementById("reszvetelGomb");
@@ -252,6 +289,7 @@ document
     );
   });
 }
+    
 async function reszvetelValaszMentese(esemenyId, valasz, indoklas = "") {
   try {
     
