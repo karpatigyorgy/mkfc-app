@@ -158,8 +158,7 @@ const hetVege = new Date(hetEleje);
 hetVege.setDate(hetVege.getDate() + 6);
 hetVege.setHours(23, 59, 59, 999);
     
-await reszvetelAllapotBetoltese("");
-alert(JSON.stringify(window.reszvetelElozmenyek));    
+await reszvetelAllapotBetoltese("");   
 const hetiEsemenyek = esemenyek
   .filter(function(esemeny) {
     const idopont = esemenyIdopont(esemeny);
