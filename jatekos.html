@@ -173,8 +173,6 @@ const e = kovetkezok[0];
 
  window.aktualisEsemeny = e; 
     
- await reszvetelAllapotBetoltese(e.id);
-
 if (!e) {
   kartya.innerHTML =
     '<div class="nev">📅 Következő esemény</div>' +
@@ -211,6 +209,9 @@ if (reszvetelGomb) {
     reszvetelJelzes(e.id);
   });
 }
+    
+await reszvetelAllapotBetoltese(e.id);
+    
   } catch (hiba) {
     
     kartya.innerHTML =
