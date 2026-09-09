@@ -186,6 +186,17 @@ if (!e) {
     window.aktualisReszvetel &&
     window.aktualisReszvetel.esemenyId === e.id;
     
+ const reszvetelAllapotSzoveg = vanMarValasz
+  ? (
+      window.aktualisReszvetel.valasz === "Igen"
+        ? '<div style="margin-top:16px; font-weight:600;">✅ Részvétel: IGEN</div>'
+        : '<div style="margin-top:16px; font-weight:600;">❌ Részvétel: NEM' +
+          (window.aktualisReszvetel.indoklas
+            ? '<br>Indok: ' + window.aktualisReszvetel.indoklas
+            : '') +
+          '</div>'
+    )
+  : "";   
     kartya.innerHTML =
   '<div class="nev">📅 Következő esemény</div>' +
   '<div><strong>' + (e.tipus || "Esemény") + '</strong></div>' +
@@ -200,6 +211,7 @@ if (!e) {
 (e.gyulekezo
   ? '<div>🕐 <strong>Gyülekező:</strong> ' + e.gyulekezo + '</div>'
   : '') +
+   reszvetelAllapotSzoveg +   
       (vanMarValasz
   ? ""
   : '<button type="button" id="reszvetelGomb" style="margin-top:16px;">Részvétel jelzése</button>');
