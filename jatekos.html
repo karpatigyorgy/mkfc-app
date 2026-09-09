@@ -196,12 +196,21 @@ if (!e) {
 (e.gyulekezo
   ? '<div>🕐 <strong>Gyülekező:</strong> ' + e.gyulekezo + '</div>'
   : '') +
-      '<button type="button" id="reszvetelGomb" style="margin-top:16px;">Részvétel jelzése</button>';
+      const vanMarValasz =
+        window.aktualisReszvetel &&
+        window.aktualisReszvetel.esemenyId === e.id;
+      (vanMarValasz
+  ? ""
+  : '<button type="button" id="reszvetelGomb" style="margin-top:16px;">Részvétel jelzése</button>');
    document
-  .getElementById("reszvetelGomb")
-  .addEventListener("click", function() {
+     
+  const reszvetelGomb = document.getElementById("reszvetelGomb");
+
+if (reszvetelGomb) {
+  reszvetelGomb.addEventListener("click", function() {
     reszvetelJelzes(e.id);
-  }); 
+  });
+}
   } catch (hiba) {
     
     kartya.innerHTML =
