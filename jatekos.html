@@ -225,11 +225,27 @@ function reszvetelJelzes(esemenyId) {
 document
   .getElementById("nemVeszekResztGomb")
   .addEventListener("click", function() {
-    reszvetelValaszMentese(esemenyId, "Nem");
+    const indoklas = prompt(
+      "Kérlek írd le röviden, miért nem veszel részt:"
+    );
+
+    if (indoklas === null) {
+      return;
+    }
+
+    if (!indoklas.trim()) {
+      alert("Az indoklás megadása kötelező.");
+      return;
+    }
+
+    reszvetelValaszMentese(
+      esemenyId,
+      "Nem",
+      indoklas.trim()
+    );
   });
 }
-
-  async function reszvetelValaszMentese(esemenyId, valasz) {
+async function reszvetelValaszMentese(esemenyId, valasz, indoklas = "") {
   try {
     
      const valaszApi = await fetch(API_URL, {
@@ -251,7 +267,7 @@ document
 
     jatekos: nev,
     valasz: valasz,
-    indoklas: ""
+    indoklas: indoklas
   })
 });
 
