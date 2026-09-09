@@ -205,9 +205,27 @@ if (!e) {
       '<div>Hiba: ' + hiba.message + '</div>';
   }
 }
-   function reszvetelJelzes(esemenyId) {
-      alert("Részvétel jelzése – esemény: " + esemenyId);
-} 
+function reszvetelJelzes(esemenyId) {
+  const kartya = document.getElementById("kovetkezoEsemeny");
+
+  kartya.innerHTML +=
+    '<div style="margin-top:16px;">' +
+      '<button type="button" id="resztVeszekGomb">✅ Részt veszek</button>' +
+      '<button type="button" id="nemVeszekResztGomb" style="margin-top:10px;">❌ Nem veszek részt</button>' +
+    '</div>';
+
+  document
+    .getElementById("resztVeszekGomb")
+    .addEventListener("click", function() {
+      alert("Részt veszek – esemény: " + esemenyId);
+    });
+
+  document
+    .getElementById("nemVeszekResztGomb")
+    .addEventListener("click", function() {
+      alert("Nem veszek részt – esemény: " + esemenyId);
+    });
+}
     function kijelentkezes() {
       localStorage.removeItem("mkfc_jatekos_nev");
       localStorage.removeItem("mkfc_jatekos_token");
