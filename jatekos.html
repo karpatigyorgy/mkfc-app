@@ -171,6 +171,8 @@ const kovetkezok = esemenyek
 
 const e = kovetkezok[0];
 
+ window.aktualisEsemeny = e;   
+
 if (!e) {
   kartya.innerHTML =
     '<div class="nev">📅 Következő esemény</div>' +
@@ -234,15 +236,13 @@ document
       headers: {
         "Content-Type": "text/plain;charset=utf-8"
       },
-      body: JSON.stringify({
-        muvelet: "reszvetelMentes",
-        esemenyId: esemenyId,
-        datum: "",
-        tipus: "",
-        jatekos: nev,
-        valasz: valasz,
-        indoklas: ""
-      })
+      datum: window.aktualisEsemeny
+  ? window.aktualisEsemeny.datum
+  : "",
+
+tipus: window.aktualisEsemeny
+  ? window.aktualisEsemeny.tipus
+  : "",
     });
 
     const adat = await valaszApi.json();
