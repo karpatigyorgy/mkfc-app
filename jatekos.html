@@ -300,7 +300,8 @@ async function reszvetelValaszMentese(esemenyId, valasz, indoklas = "") {
    if (nemGomb) {
       nemGomb.style.display = "none";
    }
-kartya.innerHTML +=
+kartya.insertAdjacentHTML(
+  "beforeend",
   '<div style="margin-top:16px; font-weight:600;">' +
     (valasz === "Igen"
       ? "✅ Visszajelzésed rögzítve: Részt veszek"
@@ -309,7 +310,8 @@ kartya.innerHTML +=
           ? "<br>Indok: " + indoklas
           : "")
     ) +
-  '</div>';
+  '</div>'
+);
 
   } catch (hiba) {
     alert("Hiba: " + hiba.message);
