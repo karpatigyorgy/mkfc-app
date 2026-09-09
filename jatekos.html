@@ -193,9 +193,12 @@ if (!e) {
   ? '<div>🕐 <strong>Gyülekező:</strong> ' + e.gyulekezo + '</div>'
   : '') +
       
-  '<button style="margin-top:16px;" onclick="reszvetelJelzes(' +
-JSON.stringify(e.id) +
-')">Részvétel jelzése</button>';
+'<button id="reszvetelGomb" style="margin-top:16px;">Részvétel jelzése</button>';
+   document
+  .getElementById("reszvetelGomb")
+  .addEventListener("click", function() {
+    reszvetelJelzes(e.id);
+  }); 
   } catch (hiba) {
     
     kartya.innerHTML =
