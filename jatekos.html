@@ -172,6 +172,23 @@ if (hetiEsemenyek.length === 0) {
   hetiHtml += '<div>Nincs esemény ezen a héten.</div>';
 } 
 hetiEsemenyek.forEach(function(esemeny) {
+const hetiValasz = (window.reszvetelElozmenyek || []).find(function(elem) {
+  return elem.esemenyId === esemeny.id;
+});  
+
+let hetiValaszSzoveg = "⚪ Nincs visszajelzés";
+
+if (hetiValasz) {
+  if (hetiValasz.valasz === "Igen") {
+    hetiValaszSzoveg = "✅ IGEN";
+  } else if (hetiValasz.valasz === "Nem") {
+    hetiValaszSzoveg =
+      "❌ NEM" +
+      (hetiValasz.indoklas
+        ? " – " + hetiValasz.indoklas
+        : "");
+  }
+}
   hetiHtml +=
     '<div style="margin-top:12px; padding-top:12px; border-top:1px solid #ddd;">' +
       '<div><strong>' + (esemeny.tipus || "Esemény") + '</strong></div>' +
@@ -179,8 +196,11 @@ hetiEsemenyek.forEach(function(esemeny) {
       '<div>⏰ ' + (esemeny.kezdes || "") + '</div>' +
       (esemeny.helyszin
         ? '<div>📍 ' + esemeny.helyszin + '</div>'
-        : '') +
-    '</div>';
+       : '') +
+'<div style="margin-top:6px; font-weight:600;">' +
+  hetiValaszSzoveg +
+'</div>' +
+'</div>';
 }); 
     
 hetiKartya.innerHTML = hetiHtml; 
@@ -288,6 +308,8 @@ async function reszvetelAllapotBetoltese(esemenyId) {
     });
 
     const adat = await valaszApi.json();
+
+    window.reszvetelElozmenyek = adat.elozoValaszok || [];
 
     if (!adat.siker) {
       return;
