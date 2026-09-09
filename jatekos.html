@@ -84,7 +84,10 @@
   <div class="nev">📅 Következő esemény</div>
   <div>Betöltés...</div>
 </div>
-    
+<div class="card" id="hetiProgram">
+  <div class="nev">📅 Heti program</div>
+  <div>Betöltés...</div>
+</div>    
     <div class="card">
       <button onclick="kijelentkezes()">
         Kijelentkezés
@@ -117,7 +120,7 @@ const csapatIdk = csapatok
     
   async function kovetkezoEsemenyBetoltese() {
   const kartya = document.getElementById("kovetkezoEsemeny");
-
+  const hetiKartya = document.getElementById("hetiProgram");
   try {
     const valasz = await fetch(API_URL, {
       method: "POST",
@@ -141,9 +144,47 @@ const csapatIdk = csapatok
     const esemenyek = Array.isArray(adat.esemenyek)
   ? adat.esemenyek
   : [];
-
+    
 const most = new Date();
+    
+const hetEleje = new Date(most);
+hetEleje.setHours(0, 0, 0, 0);
 
+const nap = hetEleje.getDay();
+const hetfoEltolas = nap === 0 ? -6 : 1 - nap;
+hetEleje.setDate(hetEleje.getDate() + hetfoEltolas);
+
+const hetVege = new Date(hetEleje);
+hetVege.setDate(hetVege.getDate() + 6);
+hetVege.setHours(23, 59, 59, 999);
+    
+const hetiEsemenyek = esemenyek
+  .filter(function(esemeny) {
+    const idopont = esemenyIdopont(esemeny);
+    return idopont >= hetEleje && idopont <= hetVege;
+  })
+  .sort(function(a, b) {
+    return esemenyIdopont(a) - esemenyIdopont(b);
+  });
+let hetiHtml = '<div class="nev">📅 Heti program</div>';
+
+if (hetiEsemenyek.length === 0) {
+  hetiHtml += '<div>Nincs esemény ezen a héten.</div>';
+} 
+hetiEsemenyek.forEach(function(esemeny) {
+  hetiHtml +=
+    '<div style="margin-top:12px; padding-top:12px; border-top:1px solid #ddd;">' +
+      '<div><strong>' + (esemeny.tipus || "Esemény") + '</strong></div>' +
+      '<div>📅 ' + (esemeny.datum || "") + '</div>' +
+      '<div>⏰ ' + (esemeny.kezdes || "") + '</div>' +
+      (esemeny.helyszin
+        ? '<div>📍 ' + esemeny.helyszin + '</div>'
+        : '') +
+    '</div>';
+}); 
+    
+hetiKartya.innerHTML = hetiHtml; 
+    
 function esemenyIdopont(esemeny) {
   const datumReszek = String(esemeny.datum || "")
     .replace(/\.$/, "")
