@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MKFC – Játékos Központ</title>
+
+  <meta name="theme-color" content="#174a73">
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon-512.png">
+  <link rel="apple-touch-icon" href="icon-512.png">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fa;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: #174a73;
+      color: white;
+      padding: 18px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .content {
+      padding: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      margin-bottom: 16px;
+    }
+
+    .nev {
+      font-size: 20px;
+      font-weight: bold;
+      color: #174a73;
+      margin-bottom: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: 0;
+      border-radius: 10px;
+      background: #174a73;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    MKFC – Játékos Központ
+  </div>
+
+  <div class="content">
+    <div class="card">
+      <div class="nev" id="jatekosNev">
+        Betöltés...
+      </div>
+
+      <div>
+        Sikeres belépés.
+      </div>
+    </div>
+
+    <div class="card">
+      <button onclick="kijelentkezes()">
+        Kijelentkezés
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const nev = localStorage.getItem("mkfc_jatekos_nev");
+    const token = localStorage.getItem("mkfc_jatekos_token");
+
+    if (!nev || !token) {
+      window.location.href = "index.html";
+    } else {
+      document.getElementById("jatekosNev").textContent = nev;
+    }
+
+    function kijelentkezes() {
+      localStorage.removeItem("mkfc_jatekos_nev");
+      localStorage.removeItem("mkfc_jatekos_token");
+
+      window.location.href = "index.html";
+    }
+  </script>
+
+</body>
+</html>
