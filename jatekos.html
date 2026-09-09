@@ -231,19 +231,29 @@ document
 
   async function reszvetelValaszMentese(esemenyId, valasz) {
   try {
-    const valaszApi = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      datum: window.aktualisEsemeny
-  ? window.aktualisEsemeny.datum
-  : "",
+    
+     const valaszApi = await fetch(API_URL, {
+  method: "POST",
+  headers: {
+    "Content-Type": "text/plain;charset=utf-8"
+  },
+  body: JSON.stringify({
+    muvelet: "reszvetelMentes",
+    esemenyId: esemenyId,
 
-tipus: window.aktualisEsemeny
-  ? window.aktualisEsemeny.tipus
-  : "",
-    });
+    datum: window.aktualisEsemeny
+      ? window.aktualisEsemeny.datum
+      : "",
+
+    tipus: window.aktualisEsemeny
+      ? window.aktualisEsemeny.tipus
+      : "",
+
+    jatekos: nev,
+    valasz: valasz,
+    indoklas: ""
+  })
+});
 
     const adat = await valaszApi.json();
 
