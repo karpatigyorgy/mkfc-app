@@ -171,7 +171,9 @@ const kovetkezok = esemenyek
 
 const e = kovetkezok[0];
 
- window.aktualisEsemeny = e; 
+ window.aktualisEsemeny = e;
+
+await reszvetelAllapotBetoltese(e.id);    
     
 if (!e) {
   kartya.innerHTML =
