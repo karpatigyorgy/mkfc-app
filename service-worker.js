@@ -1,4 +1,4 @@
-const CACHE_NAME = "mkfc-app-v1";
+const CACHE_NAME = "mkfc-app-v2";
 
 const APP_SHELL = [
   "./",
