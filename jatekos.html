@@ -192,11 +192,12 @@ if (!e) {
 (e.gyulekezo
   ? '<div>🕐 <strong>Gyülekező:</strong> ' + e.gyulekezo + '</div>'
   : '') +
-'<button style="margin-top:16px;" onclick="reszvetelJelzes(\'' +
-e.id +
-'\')">Részvétel jelzése</button>';
-
+      
+  '<button style="margin-top:16px;" onclick="reszvetelJelzes(' +
+JSON.stringify(e.id) +
+')">Részvétel jelzése</button>';
   } catch (hiba) {
+    
     kartya.innerHTML =
       '<div class="nev">📅 Következő esemény</div>' +
       '<div>Hiba: ' + hiba.message + '</div>';
