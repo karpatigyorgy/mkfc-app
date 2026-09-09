@@ -138,6 +138,46 @@ const csapatIdk = csapatok
       throw new Error(adat.uzenet || "Nem sikerült lekérni az eseményeket.");
     }
 
+    const esemenyek = Array.isArray(adat.esemenyek)
+  ? adat.esemenyek
+  : [];
+
+const most = new Date();
+
+function esemenyIdopont(esemeny) {
+  const datumReszek = String(esemeny.datum || "")
+    .replace(/\.$/, "")
+    .split(".");
+
+  const idoReszek = String(esemeny.kezdes || "00:00")
+    .split(":");
+
+  return new Date(
+    Number(datumReszek[0]),
+    Number(datumReszek[1]) - 1,
+    Number(datumReszek[2]),
+    Number(idoReszek[0] || 0),
+    Number(idoReszek[1] || 0)
+  );
+}
+
+const kovetkezok = esemenyek
+  .filter(function(esemeny) {
+    return esemenyIdopont(esemeny) >= most;
+  })
+  .sort(function(a, b) {
+    return esemenyIdopont(a) - esemenyIdopont(b);
+  });
+
+const e = kovetkezok[0];
+
+if (!e) {
+  kartya.innerHTML =
+    '<div class="nev">📅 Következő esemény</div>' +
+    '<div>Nincs közelgő esemény.</div>';
+  return;
+}
+
     kartya.innerHTML =
   '<div class="nev">📅 Következő esemény</div>' +
   '<div><strong>' + (e.tipus || "Esemény") + '</strong></div>' +
