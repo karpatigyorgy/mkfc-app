@@ -209,6 +209,13 @@ if (!e) {
 }
 function reszvetelJelzes(esemenyId) {
   const kartya = document.getElementById("kovetkezoEsemeny");
+  const reszvetelGomb = document.getElementById("reszvetelGomb");
+  const igenGomb = document.getElementById("resztVeszekGomb");
+  const nemGomb = document.getElementById("nemVeszekResztGomb");
+
+if (reszvetelGomb) reszvetelGomb.disabled = true;
+if (igenGomb) igenGomb.disabled = true;
+if (nemGomb) nemGomb.disabled = true;
 
   kartya.innerHTML +=
     '<div style="margin-top:16px;">' +
