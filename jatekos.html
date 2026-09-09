@@ -285,7 +285,21 @@ async function reszvetelValaszMentese(esemenyId, valasz, indoklas = "") {
     }
 
    const kartya = document.getElementById("kovetkezoEsemeny");
+   const reszvetelGomb = document.getElementById("reszvetelGomb");
+   const igenGomb = document.getElementById("resztVeszekGomb");
+   const nemGomb = document.getElementById("nemVeszekResztGomb");
 
+   if (reszvetelGomb) {
+       reszvetelGomb.style.display = "none";
+   }
+
+   if (igenGomb) {
+      igenGomb.style.display = "none";
+   }
+
+   if (nemGomb) {
+      nemGomb.style.display = "none";
+   }
 kartya.innerHTML +=
   '<div style="margin-top:16px; font-weight:600;">' +
     (valasz === "Igen"
