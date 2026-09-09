@@ -176,6 +176,9 @@ const e = kovetkezok[0];
 await reszvetelAllapotBetoltese(e.id);    
     
 if (!e) {
+  const vanMarValasz =
+    window.aktualisReszvetel &&
+    window.aktualisReszvetel.esemenyId === e.id;
   kartya.innerHTML =
     '<div class="nev">📅 Következő esemény</div>' +
     '<div>Nincs közelgő esemény.</div>';
@@ -196,7 +199,9 @@ if (!e) {
 (e.gyulekezo
   ? '<div>🕐 <strong>Gyülekező:</strong> ' + e.gyulekezo + '</div>'
   : '') +
-      '<button type="button" id="reszvetelGomb" style="margin-top:16px;">Részvétel jelzése</button>';
+      (vanMarValasz
+  ? ""
+  : '<button type="button" id="reszvetelGomb" style="margin-top:16px;">Részvétel jelzése</button>');
    document
      
   const reszvetelGomb = document.getElementById("reszvetelGomb");
@@ -229,8 +234,6 @@ async function reszvetelAllapotBetoltese(esemenyId) {
     });
 
     const adat = await valaszApi.json();
-
-    alert(JSON.stringify(adat));
 
     if (!adat.siker) {
       return;
