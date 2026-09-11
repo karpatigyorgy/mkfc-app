@@ -173,6 +173,7 @@ if (hetiEsemenyek.length === 0) {
   hetiHtml += '<div>Nincs esemény ezen a héten.</div>';
 } 
 hetiEsemenyek.forEach(function(esemeny) {
+const hetiEsemenyId = String(esemeny.id || "").trim(); 
 const hetiValasz = (window.reszvetelElozmenyek || []).find(function(elem) {
   return String(elem.esemenyId || "").trim() === String(esemeny.id || "").trim();
 });  
