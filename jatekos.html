@@ -226,12 +226,34 @@ function hetiEsemenyMegnyitas(esemenyId) {
 
   window.aktualisEsemeny = esemeny;
 
-  alert(
-    (esemeny.tipus || "Esemény") + "\n" +
-    (esemeny.datum || "") + " " +
-    (esemeny.kezdes || "")
-  );
-}    
+  esemenyReszletekMegjelenitese(esemeny);
+} 
+    
+function esemenyReszletekMegjelenitese(esemeny) {
+  if (!esemeny) {
+   return;
+  }
+  const kartya = document.getElementById("kovetkezoEsemeny");
+
+  if (!kartya) {
+    return;
+  }
+ kartya.innerHTML =
+  '<div class="nev">📅 Esemény részletei</div>' +
+  '<div><strong>' + (esemeny.tipus || "Esemény") + '</strong></div>' +
+  '<div>📅 ' + (esemeny.datum || "") + '</div>' +
+  '<div>⏰ ' + (esemeny.kezdes || "") + '</div>' +
+(esemeny.ellenfel
+  ? '<div>⚽ <strong>Ellenfél:</strong> ' + esemeny.ellenfel + '</div>'
+  : '') +
+(esemeny.helyszin
+  ? '<div>📍 <strong>Helyszín:</strong> ' + esemeny.helyszin + '</div>'
+  : '') +
+(esemeny.gyulekezo
+  ? '<div>🕐 <strong>Gyülekező:</strong> ' + esemeny.gyulekezo + '</div>'
+  : ''); 
+} 
+    
 function esemenyIdopont(esemeny) {
   const datumReszek = String(esemeny.datum || "")
     .replace(/\.$/, "")
