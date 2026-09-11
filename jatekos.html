@@ -244,8 +244,21 @@ const e = kovetkezok[0];
 
  window.aktualisEsemeny = e;
 
-await reszvetelAllapotBetoltese(e.id);    
+await reszvetelAllapotBetoltese(e.id); 
     
+const keretValasz = await fetch(API_URL, {
+  method: "POST",
+  headers: {
+    "Content-Type": "text/plain;charset=utf-8"
+  },
+  body: JSON.stringify({
+    muvelet: "jatekosMerkozesKeret",
+    esemenyId: e.id,
+    nev: nev
+  })
+});
+
+window.aktualisMerkozesKeret = await keretValasz.json();    
 if (!e) {
  
   kartya.innerHTML =
@@ -267,7 +280,21 @@ if (!e) {
             : '') +
           '</div>'
     )
-  : "";   
+  : "";  
+   const keretAdat = window.aktualisMerkozesKeret;
+
+const keretAllapotSzoveg =
+  keretAdat &&
+  keretAdat.siker &&
+  keretAdat.benneVan
+    ? '<div style="margin-top:14px;">' +
+        '👕 <strong>Keret:</strong> ' +
+        keretAdat.keretStatusz +
+        (keretAdat.merkozesPoszt
+          ? '<br>📍 <strong>Poszt:</strong> ' + keretAdat.merkozesPoszt
+          : '') +
+      '</div>'
+    : ""; 
     kartya.innerHTML =
   '<div class="nev">📅 Következő esemény</div>' +
   '<div><strong>' + (e.tipus || "Esemény") + '</strong></div>' +
@@ -282,11 +309,11 @@ if (!e) {
 (e.gyulekezo
   ? '<div>🕐 <strong>Gyülekező:</strong> ' + e.gyulekezo + '</div>'
   : '') +
-   reszvetelAllapotSzoveg +   
-      (vanMarValasz
+   reszvetelAllapotSzoveg +
+keretAllapotSzoveg +
+(vanMarValasz
   ? ""
   : '<button type="button" id="reszvetelGomb" style="margin-top:16px;">Részvétel jelzése</button>');
-   document
      
   const reszvetelGomb = document.getElementById("reszvetelGomb");
 
