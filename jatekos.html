@@ -214,7 +214,24 @@ document
   const esemenyId = elem.getAttribute("data-esemeny-id");
   hetiEsemenyMegnyitas(esemenyId);
 });
-  });    
+  });
+function hetiEsemenyMegnyitas(esemenyId) {
+  const esemeny = (window.aktualisProgram || []).find(function(elem) {
+    return String(elem.id || "").trim() === String(esemenyId || "").trim();
+  });
+
+  if (!esemeny) {
+    return;
+  }
+
+  window.aktualisEsemeny = esemeny;
+
+  alert(
+    (esemeny.tipus || "Esemény") + "\n" +
+    (esemeny.datum || "") + " " +
+    (esemeny.kezdes || "")
+  );
+}    
 function esemenyIdopont(esemeny) {
   const datumReszek = String(esemeny.datum || "")
     .replace(/\.$/, "")
