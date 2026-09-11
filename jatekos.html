@@ -211,8 +211,9 @@ document
   .querySelectorAll(".hetiEsemenyElem")
   .forEach(function(elem) {
     elem.addEventListener("click", function() {
-      const esemenyId = elem.getAttribute("data-esemeny-id");
-    });
+  const esemenyId = elem.getAttribute("data-esemeny-id");
+  hetiEsemenyMegnyitas(esemenyId);
+});
   });    
 function esemenyIdopont(esemeny) {
   const datumReszek = String(esemeny.datum || "")
