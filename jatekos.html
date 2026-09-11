@@ -309,7 +309,14 @@ const keretAllapotSzoveg =
   ? '<div>🕐 <strong>Gyülekező:</strong> ' + e.gyulekezo + '</div>'
   : '') +
   (e.meghivoUrl
-  ? '<div style="margin-top:16px;"><a href="' + e.meghivoUrl + '" target="_blank">📣 Mérkőzésmeghívó megnyitása</a></div>'
+  ? '<div style="margin-top:16px;">' +
+      '<a href="' + e.meghivoUrl + '" target="_blank" ' +
+      'style="display:block; text-align:center; text-decoration:none; ' +
+      'background:#1f5b85; color:white; padding:14px 16px; ' +
+      'border-radius:12px; font-weight:700; font-size:18px;">' +
+      '📣 MÉRKŐZÉSMEGHÍVÓ' +
+      '</a>' +
+    '</div>'
   : '') +
    reszvetelAllapotSzoveg +
 keretAllapotSzoveg +
