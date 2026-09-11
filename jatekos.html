@@ -308,6 +308,9 @@ const keretAllapotSzoveg =
 (e.gyulekezo
   ? '<div>🕐 <strong>Gyülekező:</strong> ' + e.gyulekezo + '</div>'
   : '') +
+  (e.meghivoUrl
+  ? '<div style="margin-top:16px;"><a href="' + e.meghivoUrl + '" target="_blank">📣 Mérkőzésmeghívó megnyitása</a></div>'
+  : '') +
    reszvetelAllapotSzoveg +
 keretAllapotSzoveg +
 (vanMarValasz
