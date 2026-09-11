@@ -239,6 +239,23 @@ function esemenyReszletekMegjelenitese(esemeny) {
   if (!kartya) {
     return;
   }
+ const reszvetel = (window.reszvetelElozmenyek || []).find(function(elem) {
+  return String(elem.esemenyId || "").trim() === String(esemeny.id || "").trim();
+});
+
+let reszvetelSzoveg = "⚪ Nincs visszajelzés";
+
+if (reszvetel) {
+  if (reszvetel.valasz === "Igen") {
+    reszvetelSzoveg = "✅ Részvétel: IGEN";
+  } else {
+    reszvetelSzoveg =
+      "❌ Részvétel: NEM" +
+      (reszvetel.indoklas
+        ? "<br><strong>Indok:</strong> " + reszvetel.indoklas
+        : "");
+  }
+} 
  kartya.innerHTML =
   '<div class="nev">📅 Esemény részletei</div>' +
   '<div><strong>' + (esemeny.tipus || "Esemény") + '</strong></div>' +
@@ -252,9 +269,11 @@ function esemenyReszletekMegjelenitese(esemeny) {
   : '') +
 (esemeny.gyulekezo
   ? '<div>🕐 <strong>Gyülekező:</strong> ' + esemeny.gyulekezo + '</div>'
-  : ''); 
-} 
-    
+  : '') +
+'<div style="margin-top:16px; font-weight:600;">' +
+  reszvetelSzoveg +
+'</div>';
+}
 function esemenyIdopont(esemeny) {
   const datumReszek = String(esemeny.datum || "")
     .replace(/\.$/, "")
