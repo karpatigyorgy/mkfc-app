@@ -270,6 +270,16 @@ if (reszvetel) {
 (esemeny.gyulekezo
   ? '<div>🕐 <strong>Gyülekező:</strong> ' + esemeny.gyulekezo + '</div>'
   : '') +
+ (esemeny.meghivoUrl
+  ? '<div style="margin-top:16px;">' +
+      '<a href="' + esemeny.meghivoUrl + '" target="_blank" ' +
+      'style="display:block; text-align:center; text-decoration:none; ' +
+      'background:#1f5b85; color:white; padding:14px 16px; ' +
+      'border-radius:12px; font-weight:700; font-size:18px;">' +
+      '📣 MÉRKŐZÉSMEGHÍVÓ' +
+      '</a>' +
+    '</div>'
+  : '') +  
 '<div style="margin-top:16px; font-weight:600;">' +
   reszvetelSzoveg +
 '</div>';
