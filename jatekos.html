@@ -276,7 +276,7 @@ if (reszvetel) {
       'style="display:block; text-align:center; text-decoration:none; ' +
       'background:#1f5b85; color:white; padding:14px 16px; ' +
       'border-radius:12px; font-weight:700; font-size:18px;">' +
-     '📣 ' + (String(esemeny.tipus || '').toLowerCase() === 'edzés' ? 'EDZÉSMEGHÍVÓ' : 'MÉRKŐZÉSMEGHÍVÓ') +
+    '📣 ' + (String(esemeny.tipus || '').trim().toLowerCase().includes('edzés') && !String(esemeny.tipus || '').trim().toLowerCase().includes('mérkőzés') ? 'EDZÉSMEGHÍVÓ' : 'MÉRKŐZÉSMEGHÍVÓ') +
       '</a>' +
     '</div>'
   : '') +  
