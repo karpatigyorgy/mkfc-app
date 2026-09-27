@@ -130,18 +130,26 @@ async function edzoiKovetkezoEsemenyBetoltese() {
 
   try {
 
-    const valasz = await fetch(API_URL, {
-      method: "POST",
-      headers: {
+   const valasz = await fetch(API_URL, {
+    method: "POST",
+    redirect: "follow",
+    headers: {
         "Content-Type": "text/plain;charset=utf-8"
-      },
-      body: JSON.stringify({
+    },
+    body: JSON.stringify({
         muvelet: "programAdatok",
-        csapatId: ["MKFC-U19"]
-      })
-    });
+        csapatId: "MKFC-U19"
+    })
+});
 
-    const adat = await valasz.json();
+if (!valasz.ok) {
+    throw new Error("HTTP hiba: " + valasz.status);
+}
+
+const szoveg = await valasz.text();
+console.log("Apps Script válasz:", szoveg);
+
+const adat = JSON.parse(szoveg);
 
     if (!adat.siker) {
       throw new Error(adat.uzenet || "Nem sikerült lekérni az eseményeket.");
