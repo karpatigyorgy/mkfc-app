@@ -120,5 +120,96 @@
 
 </div>
 
+<script>
+const API_URL =
+"https://script.google.com/macros/s/AKfycbvFmtgSTy0wAvMsjJzYBqNk32x7ET-_LDjWAQeDthfaEGxSYrmKtDc3B1wf_HKJIUxqKQ/exec";
+
+async function edzoiKovetkezoEsemenyBetoltese() {
+
+  const kartya = document.querySelector(".card:nth-of-type(2) .status");
+
+  try {
+
+    const valasz = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify({
+        muvelet: "programAdatok",
+        csapatId: ["MKFC-U19"]
+      })
+    });
+
+    const adat = await valasz.json();
+
+    if (!adat.siker) {
+      throw new Error(adat.uzenet || "Nem sikerült lekérni az eseményeket.");
+    }
+
+    const esemenyek = Array.isArray(adat.esemenyek)
+      ? adat.esemenyek
+      : [];
+
+    const most = new Date();
+
+    const jovobeliEsemenyek = esemenyek
+      .filter(function(esemeny) {
+        return esemenyIdopont(esemeny) >= most;
+      })
+      .sort(function(a, b) {
+        return esemenyIdopont(a) - esemenyIdopont(b);
+      });
+
+    if (jovobeliEsemenyek.length === 0) {
+      kartya.innerHTML = "Nincs következő esemény.";
+      return;
+    }
+
+    const e = jovobeliEsemenyek[0];
+
+    kartya.innerHTML =
+      '<strong>' + (e.tipus || "Esemény") + '</strong><br>' +
+      '📅 ' + (e.datum || "") + '<br>' +
+      '⏰ ' + (e.kezdes || "") +
+      (e.ellenfel
+        ? '<br>⚽ <strong>Ellenfél:</strong> ' + e.ellenfel
+        : '') +
+      (e.helyszin
+        ? '<br>📍 <strong>Helyszín:</strong> ' + e.helyszin
+        : '') +
+      (e.gyulekezo
+        ? '<br>🕔 <strong>Gyülekező:</strong> ' + e.gyulekezo
+        : '');
+
+  } catch (hiba) {
+
+    console.error(hiba);
+    kartya.innerHTML = "⚠️ Az események betöltése nem sikerült.";
+
+  }
+}
+
+function esemenyIdopont(esemeny) {
+
+  const datumReszek = String(esemeny.datum || "")
+    .replace(/\.$/, "")
+    .split(".");
+
+  const idoReszek = String(esemeny.kezdes || "00:00")
+    .split(":");
+
+  return new Date(
+    Number(datumReszek[0]),
+    Number(datumReszek[1]) - 1,
+    Number(datumReszek[2]),
+    Number(idoReszek[0] || 0),
+    Number(idoReszek[1] || 0)
+  );
+}
+
+edzoiKovetkezoEsemenyBetoltese();
+</script>
+  
 </body>
 </html>
